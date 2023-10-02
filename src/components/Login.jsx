@@ -1,13 +1,26 @@
+import { useContext } from "react";
+import { AuthContext } from "../provider/AuthProvider";
+
 const Login = () => {
 
+    const { loginUser } = useContext(AuthContext)
 
     const handleLogin = e => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
         console.log(email, password);
+
+        // login user in firebae
+        loginUser(email, password)
+        .then(result => {
+            console.log(result.user);
+        })
+        .catch(error => console.error(error))
     }
- 
+
+
+
     return (
         <div className="hero min-h-[88vh] bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -35,7 +48,7 @@ const Login = () => {
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Login</button>
                         </div>
-                    <p>New here? <a className="hover:text-blue-600 text-fuchsia-600 underline" href="/register">Register now</a></p>
+                        <p>New here? <a className="hover:text-blue-600 text-fuchsia-600 underline" href="/register">Register now</a></p>
                     </form>
                 </div>
             </div>
