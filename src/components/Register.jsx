@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { AuthContext } from "../provider/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
 
-    const {createUser} = useContext(AuthContext)
+    const {createUser} = useContext(AuthContext);
+    const navigate = useNavigate()
 
     const handleRegistetion = e => {
         e.preventDefault()
@@ -14,11 +16,13 @@ const Register = () => {
 
         // create user in firebase
         createUser(email, password)
-        .then(result => {
-            console.log(result.user);
+        .then(() => {
+            // console.log(result.user);
+            e.target.reset()
+            navigate('/')
         })
         .catch(error =>{
-            console.error(error)
+            alert(error?.message)
         })
 
     }

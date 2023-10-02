@@ -1,22 +1,32 @@
 import { useContext } from "react";
 import { AuthContext } from "../provider/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
-    const { loginUser } = useContext(AuthContext)
+    const { loginUser, signInWithGoogle } = useContext(AuthContext);
+    const navigate = useNavigate()
 
     const handleLogin = e => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
-        console.log(email, password);
+        // console.log(email, password);
 
         // login user in firebae
         loginUser(email, password)
-        .then(result => {
-            console.log(result.user);
-        })
-        .catch(error => console.error(error))
+            .then(() => {
+                // console.log(result.user);
+                e.target.reset()
+                navigate('/')
+            })
+            .catch(error => console.error(error))
+    }
+
+    const handleLoginGoogle = () => {
+        signInWithGoogle()
+            .then()
+            .catch(error => alert(error?.message))
     }
 
 
@@ -45,11 +55,16 @@ const Login = () => {
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label>
                         </div>
-                        <div className="form-control mt-6">
+                        <div className="form-control mt-4">
                             <button className="btn btn-primary">Login</button>
                         </div>
-                        <p>New here? <a className="hover:text-blue-600 text-fuchsia-600 underline" href="/register">Register now</a></p>
                     </form>
+                    <div className="px-8 py-2">
+                        <div className="mb-2">
+                            <button onClick={handleLoginGoogle} className="btn border rounded-md">Google</button>
+                        </div>
+                        <p>New here? <a className="hover:text-blue-600 text-fuchsia-600 underline my-4" href="/register">Register now</a></p>
+                    </div>
                 </div>
             </div>
         </div>
